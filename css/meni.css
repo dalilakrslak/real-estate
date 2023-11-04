@@ -1,0 +1,29 @@
+html{
+    background-color: #fdf1d3;
+}
+
+#meni {
+    list-style: none; 
+    text-align: center;
+    padding: 0;
+}
+
+#meni li {
+    display: inline;
+    padding: 10px;
+}
+
+#meni a {
+    text-decoration: none;
+    font-weight: 700;
+}
+
+#meni a:hover {
+    color: #ff9900; 
+}
+
+iframe{
+    border: none;
+    width: 100%;
+    height: 60px;
+}
