@@ -14,11 +14,6 @@ header{
     left: 0;
 }
 
-p,
-strong{
-    margin-left: 5px;
-}
-
 iframe{
     border: none;
     width: 100%;
@@ -32,8 +27,9 @@ iframe{
 }
 
 img {
-    max-width: 250px;
-    padding: 25px;
+    max-width: 260px;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 .div4 { 
@@ -45,22 +41,19 @@ img {
 
 .div1,
 .div2{
-    margin-bottom: 10px;
-    margin-left: 25px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .div3 {
     justify-content: right;
     text-align: right;
-    margin-bottom: 10px;
-    margin-right: 25px;
+    margin-right: 20px;
 }
 .stan{
     border: 1px solid black;
     font-size: 14px;
     background-color: white;
-    align-items: center;
-    justify-content: center;
 }
 
 .kuca{
