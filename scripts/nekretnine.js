@@ -1,6 +1,5 @@
 function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
     let nekretnine = instancaModula.filtrirajNekretnine({ tip_nekretnine: tip_nekretnine });
-    console.log(nekretnine);
 
     let dinamicniHTML = "";
     if(tip_nekretnine === "Stan") {
@@ -13,7 +12,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             dinamicniHTML += "<p class='div4'><button class='btn'>DETALJI</button></p></div>";
         }
         dinamicniHTML += "</div>";
-        console.log(divReferenca)
+        
         divReferenca.innerHTML = dinamicniHTML;
     }
     else if(tip_nekretnine === "Kuća"){
@@ -44,7 +43,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
     }
 }
 
-let divStan = document.getElementById("stan");
+const divStan = document.getElementById("stan");
 const divKuca = document.getElementById("kuca");
 const divPp = document.getElementById("pp");
 
