@@ -6,7 +6,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
         dinamicniHTML += "<h3>STAN</h3>";
         dinamicniHTML += "<div class='grid-list'>";
         for(nekretnina of nekretnine) {
-            dinamicniHTML += "<div  class='stan'> <img src='../img/stan1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
+            dinamicniHTML += "<div  class='stan'> <img src='./img/stan1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + "</p>";
             dinamicniHTML += "<p class='div4'><button class='btn'>DETALJI</button></p></div>";
@@ -19,7 +19,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
         dinamicniHTML += "<h3>KUĆA</h3>";
         dinamicniHTML += "<div class='grid-list'>";
         for(nekretnina of nekretnine) {
-            dinamicniHTML += "<div  class='kuca'> <img src='../img/kuca1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
+            dinamicniHTML += "<div  class='kuca'> <img src='./img/kuca1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + "</p>";
             dinamicniHTML += "<p class='div4'><button class='btn'>DETALJI</button></p></div>";
@@ -32,7 +32,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
         dinamicniHTML += "<h3>Poslovni prostor</h3>";
         dinamicniHTML += "<div class='grid-list'>";
         for(nekretnina of nekretnine) {
-            dinamicniHTML += "<div  class='pp'> <img src='../img/pp1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
+            dinamicniHTML += "<div  class='pp'> <img src='./img/pp1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + "</p>";
             dinamicniHTML += "<p class='div4'><button class='btn'>DETALJI</button></p></div>";
