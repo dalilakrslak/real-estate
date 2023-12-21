@@ -7,6 +7,7 @@ const fs = require('fs');
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.static('public/html'));
 app.use(bodyParser.json());
 app.use(session({
     secret: 'neka tajna sifra',
