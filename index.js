@@ -55,8 +55,7 @@ app.get('/korisnik', function(req, res) {
                 const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
                     
                 if(logovaniKorisnik) {
-                    const { id, ime, prezime, username, password } = logovaniKorisnik;
-                    res.status(200).json({ id, ime, prezime, username, password });
+                    res.status(200).json(logovaniKorisnik);
                 }
             }
             catch (error) {
