@@ -19,18 +19,15 @@ app.post('/login', function(req, res) {
     const { username, password } = req.body;
     fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
         try {
-            //bcrypt.hash(password, 10, function(err, hash){
-                const korisnici = JSON.parse(data)
-                let daLiPostoji = korisnici.find(korisnik => korisnik.username === username && korisnik.password === password)
-                
-                if(daLiPostoji) {
-                    req.session.username = username;
-                    res.status(200).json({ poruka: 'Uspješna prijava' });
-                } 
-                else {
-                    res.status(401).json({ greska: 'Neuspješna prijava' });
-                }
-            //});
+            const korisnici = JSON.parse(data)
+            let daLiPostoji = korisnici.find(korisnik => korisnik.username === username && bcrypt.compare(password,korisnik.password))
+            if(daLiPostoji) {
+                req.session.username = username;
+                res.status(200).json({ poruka: 'Uspješna prijava' });
+            } 
+            else {
+                res.status(401).json({ greska: 'Neuspješna prijava' });
+            }
         }
         catch (error) {
             console.error('Greska prilikom parsiranja JSON podataka: ', error);
@@ -54,15 +51,13 @@ app.get('/korisnik', function(req, res) {
     if (req.session.username) {
         fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
             try {
-                //bcrypt.hash(password, 10, function(err, hash){
-                    const korisnici = JSON.parse(data)
-                    const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
+                const korisnici = JSON.parse(data)
+                const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
                     
-                    if(logovaniKorisnik) {
-                        const { id, ime, prezime, username, password } = logovaniKorisnik;
-                        res.status(200).json({ id, ime, prezime, username, password });
-                    }
-                //});
+                if(logovaniKorisnik) {
+                    const { id, ime, prezime, username, password } = logovaniKorisnik;
+                    res.status(200).json({ id, ime, prezime, username, password });
+                }
             }
             catch (error) {
                 console.error('Greska prilikom parsiranja JSON podataka: ', error);
@@ -79,40 +74,38 @@ app.post('/upit', function(req, res) {
     if (req.session.username) {
         fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
             try {
-                //bcrypt.hash(password, 10, function(err, hash){
-                    const korisnici = JSON.parse(data)
-                    const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
+                const korisnici = JSON.parse(data)
+                const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
                     
-                    if(logovaniKorisnik) {
-                        const id = logovaniKorisnik.id;
-                        fs.readFile('data/nekretnine.json', 'utf8', (err, data) => {
-                            try {
-                                const nekretnine = JSON.parse(data)
-                                const nekretnina = nekretnine.find(property => property.id === nekretnina_id);
+                if(logovaniKorisnik) {
+                    const id = logovaniKorisnik.id;
+                    fs.readFile('data/nekretnine.json', 'utf8', (err, data) => {
+                        try {
+                            const nekretnine = JSON.parse(data)
+                            const nekretnina = nekretnine.find(property => property.id === nekretnina_id);
                                 
-                                if(!nekretnina) {
-                                    res.status(400).json({ greska: `Nekretnina sa id-em ${nekretnina_id} ne postoji` });
-                                }
-                                else {
-                                    nekretnina.upiti.push({
-                                        korisnik_id: id,
-                                        tekst_upita: tekst_upita
-                                    })
-                                    fs.writeFile('data/nekretnine.json', JSON.stringify(nekretnine, null, 2), (err) => {
-                                        if (err) {
-                                            console.error('Greska prilikom pisanja u datoteku: ', err);
-                                        } else {
-                                            res.status(200).json({ poruka: 'Upit je uspješno dodan' });
-                                        }
-                                    });
-                                }
+                            if(!nekretnina) {
+                                res.status(400).json({ greska: `Nekretnina sa id-em ${nekretnina_id} ne postoji` });
                             }
-                            catch (error) {
-                                console.error('Greska prilikom parsiranja JSON podataka: ', error);
+                            else {
+                                nekretnina.upiti.push({
+                                    korisnik_id: id,
+                                    tekst_upita: tekst_upita
+                                })
+                                fs.writeFile('data/nekretnine.json', JSON.stringify(nekretnine, null, 2), (err) => {
+                                    if (err) {
+                                        console.error('Greska prilikom pisanja u datoteku: ', err);
+                                    } else {
+                                        res.status(200).json({ poruka: 'Upit je uspješno dodan' });
+                                    }
+                                });
                             }
-                        })
-                    }
-                //});
+                        }
+                        catch (error) {
+                            console.error('Greska prilikom parsiranja JSON podataka: ', error);
+                        }
+                    })
+                }
             }
             catch (error) {
                 console.error('Greska prilikom parsiranja JSON podataka: ', error);
@@ -129,25 +122,23 @@ app.put('/korisnik', function(req, res) {
     if (req.session.username) {
         fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
             try {
-                //bcrypt.hash(password, 10, function(err, hash){
-                    const korisnici = JSON.parse(data)
-                    const indeksLogovanogKorisnika = korisnici.findIndex(korisnik => korisnik.username === req.session.username)
+                const korisnici = JSON.parse(data)
+                const indeksLogovanogKorisnika = korisnici.findIndex(korisnik => korisnik.username === req.session.username)
                     
-                    if(indeksLogovanogKorisnika !== -1) {
-                        if (ime) korisnici[indeksLogovanogKorisnika].ime = ime;
-                        if (prezime) korisnici[indeksLogovanogKorisnika].prezime = prezime;
-                        if (username) korisnici[indeksLogovanogKorisnika].username = username;
-                        if (password) korisnici[indeksLogovanogKorisnika].password = password;
+                if(indeksLogovanogKorisnika !== -1) {
+                    if (ime) korisnici[indeksLogovanogKorisnika].ime = ime;
+                    if (prezime) korisnici[indeksLogovanogKorisnika].prezime = prezime;
+                    if (username) korisnici[indeksLogovanogKorisnika].username = username;
+                    if (password) korisnici[indeksLogovanogKorisnika].password = password;
 
-                        fs.writeFile('data/korisnici.json', JSON.stringify(korisnici, null, 2), (err) => {
-                            if (err) {
-                                console.error('Greska prilikom pisanja u datoteku: ', err);
-                            } else {
-                                res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
-                            }
-                        });
-                    }
-                //});
+                    fs.writeFile('data/korisnici.json', JSON.stringify(korisnici, null, 2), (err) => {
+                        if (err) {
+                            console.error('Greska prilikom pisanja u datoteku: ', err);
+                        } else {
+                            res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
+                        }
+                    });
+                }
             }
             catch (error) {
                 console.error('Greska prilikom parsiranja JSON podataka: ', error);
