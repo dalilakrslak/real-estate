@@ -123,22 +123,28 @@ app.put('/korisnik', function(req, res) {
         fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
             try {
                 const korisnici = JSON.parse(data)
-                const indeksLogovanogKorisnika = korisnici.findIndex(korisnik => korisnik.username === req.session.username)
+                const logovaniKorisnik = korisnici.find(korisnik => korisnik.username === req.session.username)
                     
-                if(indeksLogovanogKorisnika !== -1) {
-                    if (ime) korisnici[indeksLogovanogKorisnika].ime = ime;
-                    if (prezime) korisnici[indeksLogovanogKorisnika].prezime = prezime;
-                    if (username) korisnici[indeksLogovanogKorisnika].username = username;
-                    if (password) korisnici[indeksLogovanogKorisnika].password = password;
-
-                    fs.writeFile('data/korisnici.json', JSON.stringify(korisnici, null, 2), (err) => {
-                        if (err) {
-                            console.error('Greska prilikom pisanja u datoteku: ', err);
-                        } else {
-                            res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
-                        }
-                    });
+                if (ime) logovaniKorisnik.ime = ime;
+                if (prezime) logovaniKorisnik.prezime = prezime;
+                if (username) {
+                    logovaniKorisnik.username = username;
+                    req.session.username = username
                 }
+                if (password) {
+                    bcrypt.hash(password, 10, function(err, hash) {
+                        logovaniKorisnik.password = hash
+                    });          
+                }
+
+                fs.writeFile('data/korisnici.json', JSON.stringify(korisnici, null, 2), (err) => {
+                    if (err) {
+                        console.error('Greska prilikom pisanja u datoteku: ', err);
+                    } 
+                    else {
+                        res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
+                    }
+                });
             }
             catch (error) {
                 console.error('Greska prilikom parsiranja JSON podataka: ', error);
