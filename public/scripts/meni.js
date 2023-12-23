@@ -1,20 +1,23 @@
 const prijava = document.getElementById("prijava");
 const profil = document.getElementById("profil");
+
 profil.style.display = 'none'
-prijava.addEventListener('click',callLogout)
-PoziviAjax.getKorisnik(check);
 
+prijava.addEventListener('click',odjaviSe)
 
-function callLogout(){
-    if(prijava.innerHTML=="Odjava")
-    PoziviAjax.postLogout(logout)
+PoziviAjax.getKorisnik(daLiJePrijavljen);
+
+function odjaviSe(){
+    if (prijava.innerHTML=="Odjava") {
+        PoziviAjax.postLogout(odjava)
+    }
 }
 
-function logout(error,data){
+function odjava(error,data){
     if(error) throw  error
 }
 
-function check(error,data){
+function daLiJePrijavljen(error,data){
     if(data){
         prijava.innerHTML="Odjava"
         profil.style.display = ''
