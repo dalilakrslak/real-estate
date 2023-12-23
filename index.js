@@ -9,6 +9,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.static('public/html'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: 'code',
     resave: true,
@@ -17,11 +18,15 @@ app.use(session({
 
 app.post('/login', function(req, res) {
     const { username, password } = req.body;
-    fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
+    fs.readFile('data/korisnici.json', 'utf8', async (err, data) => {
         try {
             const korisnici = JSON.parse(data)
-            let daLiPostoji = korisnici.find(korisnik => korisnik.username === username && bcrypt.compare(password,korisnik.password))
+            let daLiPostoji = korisnici.find(korisnik => korisnik.username === username)
+            let ispravanPassword = false 
             if(daLiPostoji) {
+                ispravanPassword = await bcrypt.compare(password, daLiPostoji.password); 
+            }
+            if (ispravanPassword){
                 req.session.username = username;
                 res.status(200).json({ poruka: 'Uspješna prijava' });
             } 
