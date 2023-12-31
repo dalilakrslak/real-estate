@@ -5,10 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nekretnine</title>    
     <link rel="stylesheet" href="../css/nekretnine.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header><iframe src="./meni.html"></iframe></header>
+    <div class="search-container">
+      <form id="pretragaForma">
+        <label for="minCijena">min. cijena:</label>
+        <input id="minCijena" type="text" name="minCijena">
+
+        <label for="maxCijena">max. cijena:</label>
+        <input id="maxCijena" type="text" name="maxCijena">
+
+        <label for="minKvadratura">min. kvadratura:</label>
+        <input id="minKvadratura" type="text" name="minKvadratura">
+
+        <label for="maxKvadratura">max. kvadratura:</label>
+        <input id="maxKvadratura" type="text" name="maxKvadratura">
+
+        <button type="submit" id="pretraga"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
     <div id="stan">
         
     </div>
