@@ -54,7 +54,7 @@ const max_kvadratura = document.getElementById("maxKvadratura");
 const button = document.getElementById("pretraga")
 let filter = false;
 
-
+PoziviAjax.getNekretnine(popuniNekretnine);
 
 function popuniNekretnine(error, data) {
     if (error) {
@@ -62,41 +62,31 @@ function popuniNekretnine(error, data) {
     }
 
     let nekretnine = SpisakNekretnina();
-    console.log(nekretnine)
+    nekretnine.init(data, null);
+
     const kriterij = {
         min_cijena: min_cijena.value,
         max_cijena: max_cijena.value,
         min_kvadratura: min_kvadratura.value,
         max_kvadratura: max_kvadratura.value,
     };
-
+    
+    var filtrirane = 0
     if (filter) {
-        nekretnine = nekretnine.filtrirajNekretnine(kriterij);
+        filtrirane = nekretnine.filtrirajNekretnine(kriterij);
+        nekretnine.init(filtrirane,null)
     }
-    console.log(nekretnine);
-
-    nekretnine.init(data, null);
+    else {
+        nekretnine.init(data, null);
+    }
 
     spojiNekretnine(divStan, nekretnine, "Stan");
     spojiNekretnine(divKuca, nekretnine, "Kuća");
     spojiNekretnine(divPp, nekretnine, "Poslovni prostor");
 }
 
-function izvrsiPretragu() {
-    const kriterijumi = {
-        min_cijena: min_cijena.value,
-        max_cijena: max_cijena.value,
-        min_kvadratura: min_kvadratura.value,
-        max_kvadratura: max_kvadratura.value,
-    };
-
-    filter = true;
-    popuniNekretnine(null, null);
-}
-
 button.addEventListener("click", function (event) {
     event.preventDefault();
-    izvrsiPretragu();
+    filter = true
+    PoziviAjax.getNekretnine(popuniNekretnine);
 });
-
-PoziviAjax.getNekretnine(popuniNekretnine);
