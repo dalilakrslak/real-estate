@@ -21,10 +21,21 @@ iframe{
     height: 60px;
 }
 
+
 .grid-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, 300px);
-    gap: 50px;
+    gap: 50px; 
+}
+
+.kartica {
+    width: 300px; 
+    transition: width 0.5s ease;
+}
+
+.prosirena {
+    width: 500px; 
+    grid-column: span 2;
 }
 
 img {

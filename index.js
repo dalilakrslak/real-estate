@@ -178,7 +178,7 @@ app.post('/marketing/nekretnine', function(req, res) {
         fs.readFile('data/marketing.json', 'utf8', (err, data) => {
             try {
                 const marketing = JSON.parse(data)
-
+                
                 const korisnik =  marketing.find(k => k.username == req.session.username).marketing
           
                 var nekretninee = nizNekretnina
