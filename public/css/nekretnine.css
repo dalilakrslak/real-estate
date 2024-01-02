@@ -25,7 +25,7 @@ iframe{
 .grid-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, 300px);
-    gap: 50px; 
+    gap: 20px; 
 }
 
 .kartica {
@@ -34,8 +34,11 @@ iframe{
 }
 
 .prosirena {
+    justify-content: center;
+    text-align: center;
     width: 500px; 
     grid-column: span 2;
+    place-self: center;
 }
 
 img {
@@ -53,6 +56,8 @@ img {
 
 .div1,
 .div2{
+    justify-content: left;
+    text-align: left;
     margin-left: 20px;
     margin-bottom: 20px;
 }

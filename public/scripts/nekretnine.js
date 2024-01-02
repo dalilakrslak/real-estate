@@ -112,13 +112,17 @@ button.addEventListener("click", function (event) {
 function povecajKarticu(id) {
     const kartica = document.getElementById("kartica-" + id);
 
-    if (kartica.classList.contains("prosirena")) {
+    /*if (kartica.classList.contains("prosirena")) {
         kartica.classList.remove("prosirena");
         console.log("Uklonjena klasa");
-    } 
-    else {
+    } */
+    //else {
         kartica.classList.add("prosirena");
         console.log("Dodana klasa");
-    }
+    //}
+    const allButtons = document.querySelectorAll('.btn');
+    allButtons.forEach(btn => {
+        btn.disabled = true;
+    });
     MarketingAjax.klikNekretnina(id)
 }

@@ -1,42 +1,42 @@
 [
-    {
-      "username": "username1",
-      "marketing": [
-        {
-          "id": 1,
-          "klikovi": 7,
-          "pretrage": 55
-        },
-        {
-          "id": 2,
-          "klikovi": 1,
-          "pretrage": 1
-        },
-        {
-          "id": 3,
-          "klikovi": 5,
-          "pretrage": 1
-        }
-      ]
-    },
-    {
-      "username": "username2",
-      "marketing": [
-        {
-          "id": 1,
-          "klikovi": 2,
-          "pretrage": 2
-        },
-        {
-          "id": 2,
-          "klikovi": 2,
-          "pretrage": 2
-        },
-        {
-          "id": 3,
-          "klikovi": 2,
-          "pretrage": 2
-        }
-      ]
-    }
-  ]
+  {
+    "username": "username1",
+    "marketing": [
+      {
+        "id": 1,
+        "klikovi": 7,
+        "pretrage": 55
+      },
+      {
+        "id": 2,
+        "klikovi": 1,
+        "pretrage": 1
+      },
+      {
+        "id": 3,
+        "klikovi": 7,
+        "pretrage": 1
+      }
+    ]
+  },
+  {
+    "username": "username2",
+    "marketing": [
+      {
+        "id": 1,
+        "klikovi": 2,
+        "pretrage": 2
+      },
+      {
+        "id": 2,
+        "klikovi": 2,
+        "pretrage": 2
+      },
+      {
+        "id": 3,
+        "klikovi": 2,
+        "pretrage": 2
+      }
+    ]
+  }
+]
