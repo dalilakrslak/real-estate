@@ -3,19 +3,18 @@ const profil = document.getElementById("profil");
 
 profil.style.display = 'none'
 
-prijava.addEventListener('click',odjaviSe)
+document.addEventListener('click', function(event) {
+    if (event.target === prijava) {
+        if (prijava.innerHTML === "Odjava") {
+            PoziviAjax.postLogout(function (error, data) {
+                if (error) 
+                    throw error;
+            });
+        }
+    }
+});
 
 PoziviAjax.getKorisnik(daLiJePrijavljen);
-
-function odjaviSe(){
-    if (prijava.innerHTML=="Odjava") {
-        PoziviAjax.postLogout(odjava)
-    }
-}
-
-function odjava(error,data){
-    if(error) throw  error
-}
 
 function daLiJePrijavljen(error,data){
     if(data){
