@@ -4,15 +4,15 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
     let dinamicniHTML = "";
     if(tip_nekretnine === "Stan") {
         dinamicniHTML += "<h3>STAN</h3>";
-        dinamicniHTML += "<div class='grid-list'>";
+        dinamicniHTML += "<div id='stanID' class='grid-list'>";
         for(nekretnina of nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='stan'> <img src='../img/stan1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
             dinamicniHTML += "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>" +
-            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='br_pretraga' class='label' style='display: none;'>"+
+            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
-            "<p class='div2'><strong>Klikovi: </strong><span id='br_klikova' class='label' style='display: none;'></span></p></div></div></div>"
+            "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label' style='display: none;'></span></p></div></div></div>"
         }
         dinamicniHTML += "</div>";
         
@@ -20,15 +20,15 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
     }
     else if(tip_nekretnine === "Kuća"){
         dinamicniHTML += "<h3>KUĆA</h3>";
-        dinamicniHTML += "<div class='grid-list'>";
+        dinamicniHTML += "<div id='kucaID' class='grid-list'>";
         for(nekretnina of nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='kuca'> <img src='../img/kuca1.jpg' alt='Kuca 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
             dinamicniHTML += "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>" +
-            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='br_pretraga' class='label' style='display: none;'>"+
+            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
-            "<p class='div2'><strong>Klikovi: </strong><span id='br_klikova' class='label' style='display: none;'></span></p></div></div></div>"
+            "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label' style='display: none;'></span></p></div></div></div>"
 
         }
         dinamicniHTML += "</div>";
@@ -37,15 +37,15 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
     }
     else if(tip_nekretnine === "Poslovni prostor"){
         dinamicniHTML += "<h3>POSLOVNI PROSTOR</h3>";
-        dinamicniHTML += "<div class='grid-list'>";
+        dinamicniHTML += "<div id='ppID' class='grid-list'>";
         for(nekretnina of nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='pp'> <img src='../img/pp1.jpg' alt='Poslovni prostor 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
             dinamicniHTML += "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>" +
-            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='br_pretraga' class='label' style='display: none;'>"+
+            "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
-            "<p class='div2'><strong>Klikovi: </strong><span id='br_klikova' class='label' style='display: none;'></span></p></div></div></div>"
+            "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label' style='display: none;'></span></p></div></div></div>"
         }
         dinamicniHTML += "</div>";
 
@@ -57,14 +57,23 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
 const divStan = document.getElementById("stan");
 const divKuca = document.getElementById("kuca");
 const divPp = document.getElementById("pp");
+const divNekretnine = document.getElementById("nekretnine");
 const min_cijena = document.getElementById("minCijena");
 const max_cijena = document.getElementById("maxCijena");
 const min_kvadratura = document.getElementById("minKvadratura");
 const max_kvadratura = document.getElementById("maxKvadratura");
 const button = document.getElementById("pretraga")
 let filter = false;
+var first = true;
+
 
 PoziviAjax.getNekretnine(popuniNekretnine);
+
+setInterval(osvjeziNekretnine, 500);
+
+function osvjeziNekretnine(){
+  MarketingAjax.osvjeziKlikove(divNekretnine)
+}
 
 function popuniNekretnine(error, data) {
     if (error) {
@@ -72,6 +81,7 @@ function popuniNekretnine(error, data) {
     }
 
     let nekretnine = SpisakNekretnina();
+    
     nekretnine.init(data, null);
 
     const kriterij = {
@@ -84,22 +94,24 @@ function popuniNekretnine(error, data) {
     var filtrirane = 0
     if (filter) {
         filtrirane = nekretnine.filtrirajNekretnine(kriterij);
+        MarketingAjax.novoFiltriranje(filtrirane)
         nekretnine.init(filtrirane,null)
-        if(!kriterij.max_cijena && !kriterij.min_cijena && !kriterij.max_kvadratura && !kriterij.min_kvadratura)
-            filtrirane = 0
     }
     else {
         nekretnine.init(data, null);
+        MarketingAjax.novoFiltriranje(data)
     }
 
     spojiNekretnine(divStan, nekretnine, "Stan");
     spojiNekretnine(divKuca, nekretnine, "Kuća");
     spojiNekretnine(divPp, nekretnine, "Poslovni prostor");
 
-    if(filter && filtrirane != 0){
-        MarketingAjax.novoFiltriranje(filtrirane)
+    
+
+    if (first) {
+        MarketingAjax.osvjeziKlikove(divNekretnine)
+        first = false
     }
-      
     filter = false
 }
 
@@ -109,20 +121,26 @@ button.addEventListener("click", function (event) {
     PoziviAjax.getNekretnine(popuniNekretnine);
 });
 
+let trenutnoProsirenaKarticaId = null;
 function povecajKarticu(id) {
     const kartica = document.getElementById("kartica-" + id);
 
-    /*if (kartica.classList.contains("prosirena")) {
+    if (kartica.classList.contains("prosirena")) {
         kartica.classList.remove("prosirena");
         console.log("Uklonjena klasa");
-    } */
-    //else {
+        trenutnoProsirenaKarticaId = null;
+    } 
+    else {
+        if (trenutnoProsirenaKarticaId !== null) {
+            const prethodnaKartica = document.getElementById("kartica-" + trenutnoProsirenaKarticaId);
+            prethodnaKartica.classList.remove("prosirena");
+            console.log("Smanjena prethodna kartica");
+        }
+
         kartica.classList.add("prosirena");
         console.log("Dodana klasa");
-    //}
-    const allButtons = document.querySelectorAll('.btn');
-    allButtons.forEach(btn => {
-        btn.disabled = true;
-    });
-    MarketingAjax.klikNekretnina(id)
+        trenutnoProsirenaKarticaId = id;
+    }
+
+    MarketingAjax.klikNekretnina(id);
 }

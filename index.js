@@ -174,6 +174,7 @@ app.get('/nekretnine', function(req, res) {
 
 app.post('/marketing/nekretnine', function(req, res) {
     const { nizNekretnina } = req.body;
+    req.session.nekretnine = []
 
     fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
         if (err) {
@@ -187,12 +188,18 @@ app.post('/marketing/nekretnine', function(req, res) {
             for (const id of nekretnine) {
                 const nekretnina = marketing.find(k => k.id === id);
 
-                if (nekretnina) {
-                    nekretnina.pretrage += 1;
-                } else {
-                    console.warn(`Nekretnina s ID-om ${id} nije pronađena.`);
+                if (!nekretnina) {
+                    marketing.push({
+                        id: parseInt(id, 10),
+                        klikovi: 0,
+                        pretrage: 0
+                    });
+                    nekretnina = marketing.find(k => k.id === id);
                 }
+                nekretnina.pretrage += 1;
             }
+
+            req.session.nekretnine = marketing
 
             fs.writeFile('data/pomocni.json', JSON.stringify(marketing, null, 2), (err) => {
                 if (err) {
@@ -201,7 +208,8 @@ app.post('/marketing/nekretnine', function(req, res) {
 
                 res.status(200).json();
             });
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Greska prilikom parsiranja JSON podataka: ', error);
         }
     });
@@ -209,6 +217,7 @@ app.post('/marketing/nekretnine', function(req, res) {
 
 app.post('/marketing/nekretnina/:id', function(req, res) {
     const nekretninaId = req.params.id;
+    req.session.nekretnine = []
 
     fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
         if (err) {
@@ -220,20 +229,28 @@ app.post('/marketing/nekretnina/:id', function(req, res) {
 
             const nekretnina = marketing.find(k => k.id == nekretninaId);
 
-            if (nekretnina) {
-                nekretnina.klikovi += 1;
-
-                fs.writeFile('data/pomocni.json', JSON.stringify(marketing, null, 2), (err) => {
-                    if (err) {
-                        console.error('Greska prilikom pisanja u datoteku: ', err);
-                    }
-
-                    res.status(200).json();
-                });
-            } else {
-                console.warn(`Nekretnina s ID-om ${nekretninaId} nije pronađena.`);
+            if(!nekretnina) {
+                const novaNekretnina = {
+                    id: parseInt(nekretninaId, 10),
+                    klikovi: 0,
+                    pretrage:0
+                }
+                marketing.push(novaNekretnina)
+                nekretnina = marketing.find(k => k.id == nekretninaId);
             }
-        } catch (error) {
+
+            nekretnina.klikovi += 1;
+
+            fs.writeFile('data/pomocni.json', JSON.stringify(marketing, null, 2), (err) => {
+                if (err) {
+                    console.error('Greska prilikom pisanja u datoteku: ', err);
+                }
+
+                res.status(200).json();
+            });
+            
+        } 
+        catch (error) {
             console.error('Greska prilikom parsiranja JSON podataka: ', error);
         }
     });
@@ -262,5 +279,7 @@ app.post('/marketing/osvjezi', function(req, res) {
         }
     });
 });
+
+
 
 app.listen(3000);
