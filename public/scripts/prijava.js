@@ -2,11 +2,10 @@ const username = document.getElementById("username");
 const password = document.getElementById("password");
 const button = document.getElementById("loginButton");
 
-function callLogin(){
+button.addEventListener('click', function (event) {
     event.preventDefault()
     PoziviAjax.postLogin(username.value, password.value, login)
-}
-button.addEventListener('click',callLogin);
+});
 
 function login(error,data){
     if(error) {
