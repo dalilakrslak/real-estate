@@ -174,98 +174,93 @@ app.get('/nekretnine', function(req, res) {
 
 app.post('/marketing/nekretnine', function(req, res) {
     const { nizNekretnina } = req.body;
-    if(req.session.username) {
-        fs.readFile('data/marketing.json', 'utf8', (err, data) => {
-            try {
-                const marketing = JSON.parse(data)
-                
-                const korisnik =  marketing.find(k => k.username == req.session.username).marketing
-          
-                var nekretninee = nizNekretnina
-      
-                if(!nekretninee)
-                  nekretninee = req.session.nekretnine
-      
-                for(id in nekretninee){
-                    const nekretnina = korisnik.find(k => k.id == id)
-                    if(nekretnina) {
-                        nekretnina.pretrage += 1
-                    }         
-                }
-              
-                fs.writeFile('data/marketing.json', JSON.stringify(marketing, null, 2), (err) => {
-                    if (err) {
-                        console.error('Greska prilikom pisanja u datoteku: ', err);
-                    } 
-                    else {
-                        req.session.nekretnine = nizNekretnina
-                        res.status(200).json();
-                    }
-                });                
-                
-            }
-            catch (error) {
-                console.error('Greska prilikom parsiranja JSON podataka: ', error);
-            }
-        })
-    }
-})
 
-app.post('/marketing/nekretnina/:id',function(req,res){
-    if(req.session.username){
-  
-        fs.readFile('data/marketing.json', 'utf8', (err, data) => {
-            try {
-                const marketing = JSON.parse(data)
-    
-                const korisnik =  marketing.find(k => k.username == req.session.username).marketing
-            
-                const nekretnina = korisnik.find(x => x.id == req.params.id)
-    
-                if(nekretnina) {
-                    nekretnina.klikovi += 1
-                }        
-            
-                fs.writeFile('data/marketing.json', JSON.stringify(marketing, null, 2), (err) => {
-                    if (err) {
-                        console.error('Greska prilikom pisanja u datoteku: ', err);
-                    } 
-                    else {
-                        res.status(200).json();
-                    }
-                });                
+    fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Greska prilikom citanja datoteke: ', err);
+        }
+
+        try {
+            const marketing = JSON.parse(data);
+            const nekretnine = nizNekretnina || [];
+
+            for (const id of nekretnine) {
+                const nekretnina = marketing.find(k => k.id === id);
+
+                if (nekretnina) {
+                    nekretnina.pretrage += 1;
+                } else {
+                    console.warn(`Nekretnina s ID-om ${id} nije pronađena.`);
+                }
             }
-            catch (error) {
-                console.error('Greska prilikom parsiranja JSON podataka: ', error);
-            }
-        });
-    }
+
+            fs.writeFile('data/pomocni.json', JSON.stringify(marketing, null, 2), (err) => {
+                if (err) {
+                    console.error('Greska prilikom pisanja u datoteku: ', err);
+                }
+
+                res.status(200).json();
+            });
+        } catch (error) {
+            console.error('Greska prilikom parsiranja JSON podataka: ', error);
+        }
+    });
 });
 
-app.post('/marketing/osvjezi',function(req,res){
-    if(req.session.username){
-        
-      var { nizNekretnina } = req.body;
-  
-      if(Object.keys(req.body).length == 0){
-        nizNekretnina = req.session.nekretnine
-      }
-  
-      fs.readFile('data/marketing.json', 'utf8', (err, data) => {
-        try {
-          const marketing = JSON.parse(data)
-          const korisnik =  marketing.find(k => k.username == req.session.username).marketing
-          const osvjezi = {
-            nizNekretnina : korisnik.filter(item => nizNekretnina.includes(item.id))
-          }
-  
-          res.status(200).json(osvjezi)
+app.post('/marketing/nekretnina/:id', function(req, res) {
+    const nekretninaId = req.params.id;
+
+    fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Greska prilikom citanja datoteke: ', err);
         }
-        catch (error) {
+
+        try {
+            const marketing = JSON.parse(data);
+
+            const nekretnina = marketing.find(k => k.id == nekretninaId);
+
+            if (nekretnina) {
+                nekretnina.klikovi += 1;
+
+                fs.writeFile('data/pomocni.json', JSON.stringify(marketing, null, 2), (err) => {
+                    if (err) {
+                        console.error('Greska prilikom pisanja u datoteku: ', err);
+                    }
+
+                    res.status(200).json();
+                });
+            } else {
+                console.warn(`Nekretnina s ID-om ${nekretninaId} nije pronađena.`);
+            }
+        } catch (error) {
             console.error('Greska prilikom parsiranja JSON podataka: ', error);
-        } 
-      });
-    }
-  });
+        }
+    });
+});
+
+app.post('/marketing/osvjezi', function(req, res) {
+    let nizNekretnina = req.body.nizNekretnina || req.session.nekretnine || [];
+
+    fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Greska prilikom citanja datoteke: ', err);
+        }
+
+        try {
+            const marketing = JSON.parse(data);
+                const osvjezi = {
+                    nizNekretnina: marketing
+                        .filter(item => nizNekretnina.includes(item.id))
+                        .map(({ id, klikovi, pretrage }) => ({ id, klikovi, pretrage }))
+                };
+
+                res.status(200).json(osvjezi);
+            
+        } catch (error) {
+            console.error('Greska prilikom parsiranja JSON podataka: ', error);
+        }
+    });
+});
 
 app.listen(3000);

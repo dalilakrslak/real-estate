@@ -4,18 +4,18 @@
     "marketing": [
       {
         "id": 1,
-        "klikovi": 7,
-        "pretrage": 55
+        "klikovi": 11,
+        "pretrage": 84
       },
       {
         "id": 2,
-        "klikovi": 1,
-        "pretrage": 1
+        "klikovi": 5,
+        "pretrage": 30
       },
       {
         "id": 3,
-        "klikovi": 7,
-        "pretrage": 1
+        "klikovi": 27,
+        "pretrage": 29
       }
     ]
   },
