@@ -277,43 +277,15 @@ app.post('/marketing/osvjezi', function(req, res) {
                         .map(({ id, klikovi, pretrage }) => ({ id, klikovi, pretrage }))
                 };
             
-                let nizPosalji = {
-                    nizNekretnina : []
-                }
-                        
-                if (Object.keys(req.body).length === 0 && req.session.osvjezi !== undefined) {
-                    for (let i = 0; i < marketing.length; i++) {
-                        const x = marketing[i];
-                        const nekretnina = req.session.osvjezi.nizNekretnina.find(nek => nek.id == x.id);
-                    
-                        if (nekretnina) {
-                            if (nekretnina.pretrage != x.pretrage) {
-                                nizPosalji.nizNekretnina.push(x);
-                            }
-                            if (nekretnina.klikovi != x.klikovi) {
-                                nizPosalji.nizNekretnina.push(x);
-                            }
-                        }
-                    }
-                }
                 
-                const condition = (Object.keys(req.body).length === 0 && req.session.osvjezi !== undefined && req.session.osvjezi.length);
-
-                const uslov = nizPosalji.nizNekretnina.length !== 0
-
-                const response = condition ? null : (uslov ? nizPosalji : nizOsvjezavanja);
-
-                if (!condition) {
-                    if (uslov) {
-                        req.session.osvjezi = nizPosalji
-                    }
-                    else {
-                        req.session.nekretnine = []
-                        req.session.osvjezi = nizOsvjezavanja
-                    }
+                if(req.session.osvjezi != undefined && Object.keys(req.body).length == 0 && req.session.osvjezi.length != 0 ){
+                    res.status(200).json()
                 }
-
-                res.status(200).json(response);
+                else {
+                    req.session.nekretnine = []
+                    req.session.osvjezi = nizOsvjezavanja
+                    res.status(200).json(nizOsvjezavanja)
+                }
 
             }
             catch (error) {

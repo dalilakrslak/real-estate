@@ -9,7 +9,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='stan'> <img src='../img/stan1.jpg' alt='Stan 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
-            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
+            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
             "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label' ></span></p>" + 
             "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>  </div></div></div>"
@@ -25,7 +25,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='kuca'> <img src='../img/kuca1.jpg' alt='Kuca 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
-            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
+            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
             "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label' ></span></p>" +
             "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>  </div></div></div>"
@@ -42,7 +42,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             dinamicniHTML += "<div id='kartica-" + nekretnina.id +"' tag='kartica'> <div  class='pp'> <img src='../img/pp1.jpg' alt='Poslovni prostor 1'><p class='div1'><strong>Naziv: </strong>" + nekretnina.naziv + "</p>";
             dinamicniHTML += "<p class='div2'><strong>Kvadratura: </strong>" + nekretnina.kvadratura + "</p>";
             dinamicniHTML += "<p class='div3'><strong>Cijena: </strong>" + nekretnina.cijena + " KM</p>";
-            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label' style='display: none;'>"+
+            dinamicniHTML += "<div id='pretrage-"+ nekretnina.id +"'><p class='div2'><strong>Pretrage: </strong><span id='brojPretraga' class='label'>"+
             "</span></p></div><div id='klikovi-"+nekretnina.id+"'>"+
             "<p class='div2'><strong>Klikovi: </strong><span id='brojKlikova' class='label'></span></p>" +
             "<p class='div4'><button id='detalji-"+nekretnina.id+"'onclick='povecajKarticu(" + nekretnina.id + ")' class='btn'>DETALJI</button></p>  </div></div></div>"
