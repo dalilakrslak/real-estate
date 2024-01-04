@@ -52,8 +52,6 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
         divReferenca.innerHTML = dinamicniHTML;
     }
 }
-
-
 const divStan = document.getElementById("stan");
 const divKuca = document.getElementById("kuca");
 const divPp = document.getElementById("pp");
@@ -64,8 +62,6 @@ const min_kvadratura = document.getElementById("minKvadratura");
 const max_kvadratura = document.getElementById("maxKvadratura");
 const button = document.getElementById("pretraga")
 let filter = false;
-var first = true;
-
 
 PoziviAjax.getNekretnine(popuniNekretnine);
 
@@ -106,12 +102,6 @@ function popuniNekretnine(error, data) {
     spojiNekretnine(divKuca, nekretnine, "Kuća");
     spojiNekretnine(divPp, nekretnine, "Poslovni prostor");
 
-    
-
-    if (first) {
-        MarketingAjax.osvjeziKlikove(divNekretnine)
-        first = false
-    }
     filter = false
 }
 

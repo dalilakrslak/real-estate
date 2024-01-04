@@ -108,4 +108,3 @@ const MarketingAjax = (() => {
         klikNekretnina: klikNekretnina
     };
 })();
-
