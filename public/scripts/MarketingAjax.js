@@ -1,12 +1,12 @@
 const MarketingAjax = (() => {
-    var lista_osvjezi = 0
+    var osvjezavanje = 0
 
-    var list = {
+    var listaNekretnina = {
         nizNekretnina:[]
     }
     
     let osvjeziPretrage = function (divNekretnine) {
-        lista_osvjezi.nizNekretnina.forEach(nekretnina => {
+        osvjezavanje.nizNekretnina.forEach(nekretnina => {
             const kartice = divNekretnine.querySelectorAll(`#stanID #kartica-${nekretnina.id}, #kucaID #kartica-${nekretnina.id}, #ppID #kartica-${nekretnina.id}`);
             
             kartice.forEach(kartica => {
@@ -23,11 +23,11 @@ const MarketingAjax = (() => {
 
         const ajax = new XMLHttpRequest();
 
-        ajax.onreadystatechange = function(){
-            if (ajax.readyState == 4 && ajax.status == 200){
-                lista_osvjezi = JSON.parse(ajax.responseText)
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                osvjezavanje = JSON.parse(ajax.responseText)
 
-                lista_osvjezi.nizNekretnina.forEach(nekretnina => {
+                osvjezavanje.nizNekretnina.forEach(nekretnina => {
                     const kartice = divNekretnine.querySelectorAll(`#stanID #kartica-${nekretnina.id}, #kucaID #kartica-${nekretnina.id}, #ppID #kartica-${nekretnina.id}`);
                     
                     kartice.forEach(kartica => {
@@ -40,23 +40,20 @@ const MarketingAjax = (() => {
                 });
                     
                 osvjeziPretrage(divNekretnine)
-            }            
-            
-            else if (ajax.readyState == 4){   
+            }      
+            else if (ajax.readyState == 4) {   
 
             };
-            
         }
 
         ajax.open('POST','/marketing/osvjezi');
         ajax.setRequestHeader('Content-Type', 'application/json');
 
-        
-        if(list.nizNekretnina.length != 0){
-            ajax.send(JSON.stringify(list));
-            list.nizNekretnina = []
+        if (listaNekretnina.nizNekretnina.length != 0) {
+            ajax.send(JSON.stringify(listaNekretnina));
+            listaNekretnina.nizNekretnina = []
         }
-        else{
+        else {
             ajax.send();
         }
         
@@ -65,36 +62,36 @@ const MarketingAjax = (() => {
     let novoFiltriranje = function (listaFiltriranihNekretnina) {
         const ajax = new XMLHttpRequest();
 
-        ajax.onreadystatechange = function(){
-            if (ajax.readyState == 4 && ajax.status == 200){
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
                 
             }            
-            else if (ajax.readyState == 4){     
+            else if (ajax.readyState == 4) {     
             };
         }
-        list = {
+        listaNekretnina = {
             nizNekretnina: listaFiltriranihNekretnina.map(nekretnina => nekretnina.id)
         };
         ajax.open('POST','/marketing/nekretnine');
         ajax.setRequestHeader('Content-Type', 'application/json');
-        ajax.send(JSON.stringify(list)); 
+        ajax.send(JSON.stringify(listaNekretnina)); 
     }
     
     let klikNekretnina = function (idNekretnine) {
         const ajax = new XMLHttpRequest();
 
-        ajax.onreadystatechange = function(){
-            if (ajax.readyState == 4 && ajax.status == 200){
-                lista_osvjezi = list
+        ajax.onreadystatechange = function() {
+            if (ajax.readyState == 4 && ajax.status == 200) {
+                osvjezavanje = listaNekretnina
             }            
-            else if (ajax.readyState == 4){     
+            else if (ajax.readyState == 4) {     
             };
         }
 
-        list = {
-        nizNekretnina:[]
+        listaNekretnina = {
+            nizNekretnina: []
         }
-        list.nizNekretnina.push(idNekretnine)
+        listaNekretnina.nizNekretnina.push(idNekretnine)
 
         ajax.open('POST',`/marketing/nekretnina/${idNekretnine}`);
         ajax.send();
