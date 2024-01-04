@@ -72,7 +72,6 @@ app.get('/korisnik', function(req, res) {
         res.status(401).json({ greska: 'Neautorizovan pristup' });
     }
 });
-
 app.post('/upit', function(req, res) {
     const { nekretnina_id, tekst_upita } = req.body;
     if (req.session.username) {
@@ -159,7 +158,6 @@ app.put('/korisnik', function(req, res) {
         res.status(401).json({ greska: 'Neautorizovan pristup' });
     }
 })
-
 app.get('/nekretnine', function(req, res) {
     fs.readFile('data/nekretnine.json', 'utf8', (err, data) => {
         try {
@@ -176,17 +174,18 @@ app.post('/marketing/nekretnine', function(req, res) {
     const { nizNekretnina } = req.body;
     req.session.nekretnine = []
 
-    fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+    fs.readFile('data/pomocni.json', 'utf8', async (err, data) => {
         if (err) {
             console.error('Greska prilikom citanja datoteke: ', err);
-        }
-
+        }      
         try {
-            const marketing = JSON.parse(data);
+            const mark = await JSON.parse(data);
+            fs.readFile('data/pomocni.json', 'utf8', async (err, data) => {
+            const marketing = await JSON.parse(data);
             const nekretnine = nizNekretnina || [];
 
             for (const id of nekretnine) {
-                const nekretnina = marketing.find(k => k.id === id);
+                var nekretnina = marketing.find(k => k.id === id);
 
                 if (!nekretnina) {
                     marketing.push({
@@ -208,6 +207,7 @@ app.post('/marketing/nekretnine', function(req, res) {
 
                 res.status(200).json();
             });
+        })
         } 
         catch (error) {
             console.error('Greska prilikom parsiranja JSON podataka: ', error);
@@ -255,60 +255,62 @@ app.post('/marketing/nekretnina/:id', function(req, res) {
         }
     });
 });
-
 app.post('/marketing/osvjezi', function(req, res) {
     if (req.session){
         let { nizNekretnina } = req.body;
 
-        fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+        fs.readFile('data/pomocni.json', 'utf8', async (err, data) => {
             try {
-                if (Object.keys(req.body).length === 0) {
-                    nizNekretnina = req.session.nekretnine
-                }
-                const marketing = JSON.parse(data);
-                        
-                const nizOsvjezavanja = {
-                    nizNekretnina: marketing
-                        .filter(item => nizNekretnina.includes(item.id))
-                        .map(({ id, klikovi, pretrage }) => ({ id, klikovi, pretrage }))
-                };
-        
-                let nizPosalji = {
-                    nizNekretnina : []
-                }
+                
+                fs.readFile('data/pomocni.json', 'utf8',  async (err, data) => {
+                    if (Object.keys(req.body).length === 0) {
+                        nizNekretnina = req.session.nekretnine
+                    }
+                    const marketing = await JSON.parse(data);
+                                
+                    const nizOsvjezavanja = {
+                        nizNekretnina: marketing
+                            .filter(item => nizNekretnina.includes(item.id))
+                            .map(({ id, klikovi, pretrage }) => ({ id, klikovi, pretrage }))
+                    };
+                
+                    let nizPosalji = {
+                        nizNekretnina : []
+                    }
+                            
+                    if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined) {
+                        marketing.forEach(x => {
+                            const nekretnina = req.session.osvjezi.nizNekretnina.find(nek => nek.id == x.id)
+                            if (nekretnina) {
+                                if (nekretnina.pretrage != x.pretrage) {
+                                    nizPosalji.nizNekretnina.push(x)
+                                }
+                                if (nekretnina.klikovi != x.klikovi) {
+                                    nizPosalji.nizNekretnina.push(x)
+                                }
+                            }
+                        })
+                    }
                     
-                if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined) {
-                    marketing.forEach(x => {
-                        const nekretnina = req.session.osvjezi.nizNekretnina.find(nek => nek.id == x.id)
-                        if (nekretnina) {
-                            if (nekretnina.pretrage != x.pretrage) {
-                                nizPosalji.nizNekretnina.push(x)
-                            }
-                            if (nekretnina.klikovi != x.klikovi) {
-                                nizPosalji.nizNekretnina.push(x)
-                            }
-                        }
-                    })
-                }
-            
-                if (nizPosalji.nizNekretnina.length) {
-                    req.session.osvjezi = nizPosalji
-                    res.status(200).json(nizPosalji)
-                }
-                else if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined && req.session.osvjezi.length) {
-                    res.status(200).json()
-                }
-                else {
-                    req.session.nekretnine = []
-                    req.session.osvjezi = nizOsvjezavanja
-                    res.status(200).json(nizOsvjezavanja)
-                }
-            } 
+                    if (nizPosalji.nizNekretnina.length) {
+                        req.session.osvjezi = nizPosalji
+                        res.status(200).json(nizPosalji)
+                    }
+                    else if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined && req.session.osvjezi.length) {
+                        res.status(200).json()
+                    }
+                    else {
+                        req.session.nekretnine = []
+                        req.session.osvjezi = nizOsvjezavanja
+                        res.status(200).json(nizOsvjezavanja)
+                    }
+                } )
+            }
             catch (error) {
                 console.error('Greska prilikom parsiranja JSON podataka: ', error);
             }
         });
     }
 });
-
+    
 app.listen(3000);
