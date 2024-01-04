@@ -257,29 +257,58 @@ app.post('/marketing/nekretnina/:id', function(req, res) {
 });
 
 app.post('/marketing/osvjezi', function(req, res) {
-    let nizNekretnina = req.body.nizNekretnina || req.session.nekretnine || [];
+    if (req.session){
+        let { nizNekretnina } = req.body;
 
-    fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error('Greska prilikom citanja datoteke: ', err);
-        }
-
-        try {
-            const marketing = JSON.parse(data);
-                const osvjezi = {
+        fs.readFile('data/pomocni.json', 'utf8', (err, data) => {
+            try {
+                if (Object.keys(req.body).length === 0) {
+                    nizNekretnina = req.session.nekretnine
+                }
+                const marketing = JSON.parse(data);
+                        
+                const nizOsvjezavanja = {
                     nizNekretnina: marketing
                         .filter(item => nizNekretnina.includes(item.id))
                         .map(({ id, klikovi, pretrage }) => ({ id, klikovi, pretrage }))
                 };
-
-                res.status(200).json(osvjezi);
+        
+                let nizPosalji = {
+                    nizNekretnina : []
+                }
+                    
+                if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined) {
+                    marketing.forEach(x => {
+                        const nekretnina = req.session.osvjezi.nizNekretnina.find(nek => nek.id == x.id)
+                        if (nekretnina) {
+                            if (nekretnina.pretrage != x.pretrage) {
+                                nizPosalji.nizNekretnina.push(x)
+                            }
+                            if (nekretnina.klikovi != x.klikovi) {
+                                nizPosalji.nizNekretnina.push(x)
+                            }
+                        }
+                    })
+                }
             
-        } catch (error) {
-            console.error('Greska prilikom parsiranja JSON podataka: ', error);
-        }
-    });
+                if (nizPosalji.nizNekretnina.length) {
+                    req.session.osvjezi = nizPosalji
+                    res.status(200).json(nizPosalji)
+                }
+                else if (Object.keys(req.body).length === 0 && req.session.osvjezi != undefined && req.session.osvjezi.length) {
+                    res.status(200).json()
+                }
+                else {
+                    req.session.nekretnine = []
+                    req.session.osvjezi = nizOsvjezavanja
+                    res.status(200).json(nizOsvjezavanja)
+                }
+            } 
+            catch (error) {
+                console.error('Greska prilikom parsiranja JSON podataka: ', error);
+            }
+        });
+    }
 });
-
-
 
 app.listen(3000);
