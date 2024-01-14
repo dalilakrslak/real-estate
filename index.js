@@ -4,7 +4,17 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
+const db = require('./db.js');
+
+db.sequelize.sync().then(() => {
+    console.log('Tables have been created!');
+}).catch((err) => {
+    console.error('Error creating tables:', err);
+});
+
 const app = express();
+
+
 
 app.use(express.static('public'));
 app.use(express.static('public/html'));
