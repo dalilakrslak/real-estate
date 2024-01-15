@@ -168,5 +168,6 @@ function povecajKarticu(id) {
 }
 
 function navigirajNaDetalje(id) {
-    window.location.href = "/detalji.html";
+    window.location.href = `detalji.html?id=${id}`;
 }
+
