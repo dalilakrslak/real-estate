@@ -240,11 +240,11 @@ app.post('/marketing/nekretnina/:id', async function(req, res) {
         let nekretnina = await db.nekretnina.findOne({ where: { id: nekretninaId } })
         nekretnina.broj_klikova = nekretnina.broj_klikova + 1;
         await nekretnina.save();
-        /*req.session.nekretnine.push({
+        req.session.nekretnine.push({
             id: nekretnina.id, 
             broj_pretraga: nekretnina.broj_pretraga,
             broj_klikova: nekretnina.broj_klikova
-        })*/
+        })
         res.status(200).json();
     }
     catch (error) {

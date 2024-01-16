@@ -16,7 +16,7 @@ const nekretninaID = urlParams.get('id');
 PoziviAjax.getNekretninaById(nekretninaID, popuniDetalje)
 
 function popuniDetalje(error, data) {
-    const nekretnina = data.nekretnina
+    let nekretnina = data.nekretnina
     naziv.innerHTML += nekretnina.naziv
     kvadratura.innerHTML += nekretnina.kvadratura + " km2"
     cijena.innerHTML += nekretnina.cijena + " KM"
@@ -27,8 +27,8 @@ function popuniDetalje(error, data) {
     opis.innerHTML += nekretnina.opis
     
     let dinamicniHTML = "<ul>";
-    for (upit of nekretnina.upiti) {
-        dinamicniHTML += "<li><strong>" + upit.username + "</strong><p>" + upit.tekst_upita +"</p>";
+    for (let upit of nekretnina.upiti) {
+        dinamicniHTML += "<li><strong>" + upit.username + "</strong><p>" + upit.tekst_upita +"</p></li>";
     }
     dinamicniHTML += "</ul>";
     upiti.innerHTML = dinamicniHTML;
