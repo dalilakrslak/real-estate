@@ -55,3 +55,34 @@ li{
 li p{
     margin-bottom: 0px;
 }
+
+
+#noviUpit {
+    max-width: 735px;
+}
+
+#noviUpit h3 {
+    margin-bottom: 10px;
+}
+
+#noviUpit form {
+    text-align: center;
+}
+
+#noviUpit input {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+#noviUpit button {
+    width: 150px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: #fff; 
+    cursor: pointer;
+}
