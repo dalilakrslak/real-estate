@@ -184,12 +184,13 @@ app.post('/marketing/nekretnine', async function(req, res) {
         
         const atributi = ['id', 'broj_pretraga','broj_klikova'];
 
-        req.session.nekretnine = marketing.map((item) => {
-            const newItem = {};
-            atributi.forEach((a) => {
-                newItem[a] = item[a];
-            });
-            return newItem;
+        req.session.nekretnine = marketing.map((x) => {
+            const nekr = {};
+            for (let i = 0; i < atributi.length; i++) {
+                const atribut = atributi[i];
+                nekr[atribut] = x[atribut];
+            }
+            return nekr;
         });
         res.status(200).json();
     }
@@ -216,12 +217,13 @@ app.post('/marketing/nekretnine', async function(req, res) {
         const marketing = await db.nekretnina.findAll({ where: { id: nizNekretnina } });  
         const atributi = ['id', 'broj_pretraga','broj_klikova'];
 
-        req.session.nekretnine = marketing.map((item) => {
-            const newItem = {};
-            atributi.forEach((attr) => {
-                newItem[attr] = item[attr];
-            });
-            return newItem;
+        req.session.nekretnine = marketing.map((x) => {
+            const nekr = {};
+            for (let i = 0; i < atributi.length; i++) {
+                const atribut = atributi[i];
+                nekr[atribut] = x[atribut];
+            }
+            return nekr;
         });
 
         res.status(200).json();
@@ -265,17 +267,22 @@ app.post('/marketing/osvjezi', async function(req, res) {
             let marketing = await db.nekretnina.findAll({where : {id : nizNekretnina}});  
             const atributi = ['id','broj_klikova','broj_pretraga'];
             const nizOsvjezavanja = {
-                nizNekretnina : marketing.map((item) => {
-                    const newItem = {};
-                    atributi.forEach((attr) => {
-                        if(attr=='broj_pretraga')
-                            newItem['pretrage'] = item[attr];
-                        else if(attr=='broj_klikova')
-                            newItem['klikovi'] = item[attr];
-                        else
-                        newItem[attr] = item[attr];
-                    });
-                    return newItem;
+                nizNekretnina : marketing.map((x) => {
+                    const nekr = {};
+                    for (let i = 0; i < atributi.length; i++) {
+                        const atribut = atributi[i];
+                        
+                        if (atribut === 'broj_pretraga') {
+                            nekr['pretrage'] = x[atribut];
+                        } 
+                        else if (atribut === 'broj_klikova') {
+                            nekr['klikovi'] = x[atribut];
+                        } 
+                        else {
+                            nekr[atribut] = x[atribut];
+                        }
+                    }
+                    return nekr;
                 })
             }
 
